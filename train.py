@@ -389,6 +389,8 @@ def get_args(**kwargs):
     parser.add_argument('-pretrained',type=str,default=None,help='pretrained yolov4.conv.137')
     parser.add_argument('-classes',type=int,default=80,help='dataset classes')
     parser.add_argument('-train_label_path',dest='train_label',type=str,default='train.txt',help="train label path")
+    parser.add_argument('-epochs',dest='TRAIN_EPOCHS',type=int,default=10,help="number of training
+                        epochs")
     args = vars(parser.parse_args())
 
     for k in args.keys():
