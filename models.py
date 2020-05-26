@@ -439,7 +439,7 @@ if  __name__ == "__main__":
 
     model = Yolov4(n_classes=n_classes)
 
-    pretrained_dict = torch.load(weightfile, map_location=torch.device('gpu'))
+    pretrained_dict = torch.load(weightfile, map_location=torch.device('cuda'))
     model.load_state_dict(pretrained_dict)
 
     if namesfile == None:
