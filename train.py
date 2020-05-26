@@ -17,7 +17,7 @@ from torch import optim
 from tensorboardX import SummaryWriter
 import logging
 import os, sys
-from tqdm import tqdm_notebook
+from tqdm import tqdm
 from dataset import Yolo_dataset
 from cfg import Cfg
 from models import Yolov4
@@ -306,7 +306,7 @@ def train(model, device, config, epochs=5, batch_size=1, save_cp=True, log_step=
         epoch_loss = 0
         epoch_step = 0
 
-        with tqdm_notebook(total=n_train, desc=f'Epoch {epoch + 1}/{epochs}', unit='img', ncols=50) as pbar:
+        with tqdm(total=n_train, desc=f'Epoch {epoch + 1}/{epochs}', unit='img', ncols=50) as pbar:
             for i, batch in enumerate(train_loader):
                 global_step += 1
                 epoch_step += 1
@@ -336,6 +336,7 @@ def train(model, device, config, epochs=5, batch_size=1, save_cp=True, log_step=
                     writer.add_scalar('train/loss_cls', loss_cls.item(), global_step)
                     writer.add_scalar('train/loss_l2', loss_l2.item(), global_step)
                     writer.add_scalar('lr', scheduler.get_lr()[0] * config.batch, global_step)
+                    '''
                     pbar.set_postfix({'loss (batch)': loss.item(), 'loss_xy': loss_xy.item(),
                                         'loss_wh': loss_wh.item(),
                                         'loss_obj': loss_obj.item(),
@@ -343,6 +344,7 @@ def train(model, device, config, epochs=5, batch_size=1, save_cp=True, log_step=
                                         'loss_l2': loss_l2.item(),
                                         'lr': scheduler.get_lr()[0] * config.batch
                                         })
+                    '''
                     logging.info('Train step_{}: loss : {},loss xy : {},loss wh : {},'
                                   'loss obj : {}，loss cls : {},loss l2 : {},lr : {}'
                                   .format(global_step, loss.item(), loss_xy.item(),
@@ -361,6 +363,12 @@ def train(model, device, config, epochs=5, batch_size=1, save_cp=True, log_step=
                 torch.save(model.state_dict(), os.path.join(config.checkpoints, f'Yolov4_epoch{epoch + 1}.pth'))
                 logging.info(f'Checkpoint {epoch + 1} saved !')
 
+        print('Train step_{}: loss : {},loss xy : {},loss wh : {},'
+                      'loss obj : {}，loss cls : {},loss l2 : {},lr : {}'
+                      .format(global_step, loss.item(), loss_xy.item(),
+                              loss_wh.item(), loss_obj.item(),
+                              loss_cls.item(), loss_l2.item(),
+                              scheduler.get_lr()[0] * config.batch))
     writer.close()
 
 
