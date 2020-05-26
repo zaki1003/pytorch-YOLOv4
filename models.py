@@ -419,7 +419,7 @@ class Yolov4(nn.Module):
         return output
 
 
-if __name__ == "__main__":
+if  __name__ == "__main__":
     import sys
     from PIL import Image
 
@@ -450,7 +450,7 @@ if __name__ == "__main__":
         else:
             print("please give namefile")
 
-    use_cuda = 0
+    use_cuda = 1
     if use_cuda:
         model.cuda()
 
