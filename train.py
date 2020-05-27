@@ -363,12 +363,6 @@ def train(model, device, config, epochs=5, batch_size=1, save_cp=True, log_step=
                 torch.save(model.state_dict(), os.path.join(config.checkpoints, f'Yolov4_epoch{epoch + 1}.pth'))
                 logging.info(f'Checkpoint {epoch + 1} saved !')
 
-        print('Train step_{}: loss : {},loss xy : {},loss wh : {},'
-                      'loss obj : {}，loss cls : {},loss l2 : {},lr : {}'
-                      .format(global_step, loss.item(), loss_xy.item(),
-                              loss_wh.item(), loss_obj.item(),
-                              loss_cls.item(), loss_l2.item(),
-                              scheduler.get_lr()[0] * config.batch))
     writer.close()
 
 
